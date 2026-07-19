@@ -1,6 +1,4 @@
-<<<<<<< HEAD
 # Climate_Trend_Analysis
-=======
 
 ## Project Overview
 
