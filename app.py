@@ -17,22 +17,37 @@ st.set_page_config(
 
 @st.cache_data
 def load_data():
-    df_features = pd.read_csv("data/ghg_features.csv")
-    forecast_test =  pd.read_csv("data/forecast_test.csv")
-    comparison_table =  pd.read_csv("data/comparison_table.csv")
-    scenario_projections =  pd.read_csv("data/scenario_projections.csv")
-    scenario_impact_summary =  pd.read_csv("data/scenario_impact_summary.csv")
-    
-    return(
-        df_features,forecast_test,comparison_table,scenario_projections,scenario_impact_summary)
+    files = {
+        "Features":"data/ghg_features.csv",
+        "Forecast":"data/forecast_test.csv",
+        "Comparison":"data/comparison_table.csv",
+        "Scenario Projection":"data/scenario_projections.csv",
+        "Scenario Summary":"data/scenario_impact_summary.csv"
+    }
+    for name,path in files.items():
+        if not os.path.exists(path):
+            st.error(f"Missing file : {path}")
+            return None
+
+    df_features = pd.read_csv(files["Features"])
+    forecast_test = pd.read_csv(files["Forecast"])
+    comparison_table = pd.read_csv(files["Comparison"])
+    scenario_projections = pd.read_csv(files["Scenario Projection"])
+    scenario_impact_summary = pd.read_csv(files["Scenario Summary"])
+
+    return (
+        df_features,forecast_test,comparison_table,scenario_projections,scenario_impact_summary
+    )
+data = load_data()
+if data is None:
+    st.stop()
 (
     df_features,
     forecast_test,
     comparison_table,
     scenario_projections,
     scenario_impact_summary
-) = load_data()
-
+) = data
 
 # -----------------------------
 # SIDEBAR
